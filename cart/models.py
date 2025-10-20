@@ -22,6 +22,7 @@ class CartItem(models.Model):
     product = models.ForeignKey(Product , on_delete = models.SET_NULL , blank = True , null = True)
     qty = models.PositiveIntegerField(default = 1)
     price = models.DecimalField(decimal_places = 2 , max_digits = 8)
+    is_ordered = models.BooleanField(default = False)
     date = models.DateField(default = now)
 
     class Meta:

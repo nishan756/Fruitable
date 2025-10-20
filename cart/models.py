@@ -19,11 +19,12 @@ class Cart(models.Model):
 class CartItem(models.Model):
     id = models.UUIDField(primary_key = True , default = uuid.uuid4 , editable = False)
     cart = models.ForeignKey(Cart , on_delete = models.SET_NULL , blank = True , null = True)
+    product = models.ForeignKey(Product , on_delete = models.SET_NULL , blank = True , null = True)
     qty = models.PositiveIntegerField(default = 1)
     price = models.DecimalField(decimal_places = 2 , max_digits = 8)
     date = models.DateField(default = now)
 
     class Meta:
         ordering = ["cart" , "-date"]
-        
+
 

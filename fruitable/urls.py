@@ -8,5 +8,6 @@ urlpatterns = [
     path('home/', Home , name = 'home'),
     path('product/', include('product.urls')),
     path('session/', include('session.urls')),
+    path('cart/', include('cart.urls')),
     path('summernote/', include('django_summernote.urls')),
 ]

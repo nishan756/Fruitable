@@ -12,12 +12,13 @@ class Cart(models.Model):
     date = models.DateTimeField(default = now)
 
     def __str__(self):
-        return self.user if self.user else self.session_key
+        return str(self.user) if self.user else self.session_key
     class Meta:
         ordering = ["-date",]
 
-# class CartItem(models.Model):
-#     id = models.UUIDField(primary_key = True , default = uuid.uuid4 , editable = False)
-#     cart = models.ForeignKey(Cart , on_delete = models.SET_NULL , blank = True , null = True)
-#     qty = models.PositiveIntegerField(default = 1)
-#     price = models.DecimalField(decimal_places = 2 , max_digits = 8)
+class CartItem(models.Model):
+    id = models.UUIDField(primary_key = True , default = uuid.uuid4 , editable = False)
+    cart = models.ForeignKey(Cart , on_delete = models.SET_NULL , blank = True , null = True)
+    qty = models.PositiveIntegerField(default = 1)
+    price = models.DecimalField(decimal_places = 2 , max_digits = 8)
+

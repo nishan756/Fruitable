@@ -14,3 +14,6 @@ class CustomUser(AbstractUser):
     def __str__(self):
         return self.username is self.username or self.email if self.email else self.phone
     
+    class Meta:
+        verbose_name = 'User'
+        verbose_name_plural = 'Users'

@@ -1,7 +1,18 @@
-from django.shortcuts import render , get_object_or_404
+from django.shortcuts import render , HttpResponse
 from .models import Product
 from django.core.paginator import Paginator
+from functools import wraps
 # Create your views here.
+
+def ProductRequired(func):
+    @wraps(func)
+    def wrapper(request , id , *args , **kwargs):
+        try:
+            product = Product.objects.get(id = id , is_active = True)
+        except Product.DoesNotExist:
+            return HttpResponse(content = "Product not found")
+        return func(request , id , product , *args , **kwargs)
+    return wrapper
 
 def Home(request):
     return render(request , 'index.html')
@@ -13,6 +24,6 @@ def Shop(request):
     products = paginator.get_page(page)
     return render(request , 'shop.html' , {"products":products})
 
-def ProductDetail(request , id):
-    product = get_object_or_404(Product , id = id)
+@ProductRequired
+def ProductDetail(request , id , product):
     return render(request , 'product.html' , {"product":product})

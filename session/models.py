@@ -11,10 +11,10 @@ class CustomUser(AbstractUser):
     phone = models.CharField(max_length = 11 , blank = True , null = True , unique = True)
 
     USERNAME_FIELD = 'username'
-    REQUIRED_FIELDS = ["phone",]
+    REQUIRED_FIELDS = ["first_name","last_name","phone",]
 
     def __str__(self):
-        return self.username is self.username or self.email if self.email else self.phone
+        return self.username
     
     class Meta:
         verbose_name = 'User'

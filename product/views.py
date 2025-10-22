@@ -22,8 +22,8 @@ def Home(request):
 
 def Shop(request):
     products = Product.objects.filter(is_active = True)
-    paginator = Paginator(object_list = products , per_page = 20)
-    page = request.GET.get("page")
+    paginator = Paginator(object_list = products , per_page = 12)
+    page = int(request.GET.get("page" ,  1))
     products = paginator.get_page(page)
     return render(request , 'shop.html' , {"products":products})
 

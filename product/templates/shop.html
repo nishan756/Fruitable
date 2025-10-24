@@ -198,7 +198,7 @@
                                     <div class="col-md-6 col-lg-6 col-xl-4">
                                         <div class="rounded position-relative fruite-item">
                                             <div class="fruite-img">
-                                                <a href="{% url 'product-detail' product.id %}" target="_blank"><img src="{{product.image.url}}" class="img-fluid w-100 rounded-top" alt=""></a>
+                                                <a href="{% url 'product-detail' product.id %}" target="_blank"><img src="{{product.image.url}}" class="img-fluid w-100 rounded-top" alt="" style="height:230px;width:500px;"></a>
                                             </div>
                                             <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">{% for cat in product.category.all %}{{cat.name}}{% endfor %}</div>
                                             <div class="p-4 border border-secondary border-top-0 rounded-bottom">
@@ -215,14 +215,15 @@
                                     <!--pagination-->
                                     <div class="col-12">
                                         <div class="pagination d-flex justify-content-center mt-5">
-                                            <a href="#" class="rounded">&laquo;</a>
-                                            <a href="#" class="active rounded">1</a>
-                                            <a href="#" class="rounded">2</a>
-                                            <a href="#" class="rounded">3</a>
-                                            <a href="#" class="rounded">4</a>
-                                            <a href="#" class="rounded">5</a>
-                                            <a href="#" class="rounded">6</a>
-                                            <a href="#" class="rounded">&raquo;</a>
+                                            {% if products.has_previous %}
+                                                <a href="?page={{products.previous_page_number}}" class="rounded">&laquo;</a>
+                                            {% endif %}
+                                    
+                                            <a href="?page={{num}}" class="active rounded">{{products.number}}</a>
+
+                                            {% if products.has_next %}
+                                                <a href="?page={{products.next_page_number}}" class="rounded">&raquo;</a>
+                                            {% endif %}
                                         </div>
                                     </div>
                                 </div>

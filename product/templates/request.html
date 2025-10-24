@@ -1,0 +1,27 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block head %}
+<title>{% block title %}Request for {{product.name}} {% endblock title %}</title>
+<link rel="stylesheet" href="{% static 'css/request.css'%}">
+{% endblock head %}
+
+{% block body %}
+<div class="form-container">
+    <h2>{{ product.name }} — রিকোয়েস্ট পাঠান</h2>
+    <p>যদি তুমি চাও, আমরা এই প্রোডাক্টটি স্টকে ফিরলে তোমাকে জানাব।</p>
+
+    <form method="POST">
+      {% csrf_token %}
+
+        {% for field in form %}
+            <div class="form-row">
+                <label for="name">{{field.label_tag}}</label>
+                {{field}}
+            </div>
+        {% endfor %}
+
+      <button type="submit" class="btn btn-primary">রিকোয়েস্ট পাঠান</button>
+    </form>
+</div>
+
+{% endblock body %}

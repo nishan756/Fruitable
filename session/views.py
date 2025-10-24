@@ -2,9 +2,16 @@ from django.shortcuts import render , redirect
 from django.contrib.auth import login , authenticate , logout
 from django.contrib import messages
 from .forms import CustomUserForm
+from functools import wraps
 # Create your views here.
 
-
+def get_user(request):
+        user = None
+        if request.user.is_authenticated:
+            user = request.user
+        else:
+            user = None
+        return user
 
 def SignUp(request):
     if request.method == 'POST':

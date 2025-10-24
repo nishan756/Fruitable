@@ -49,22 +49,19 @@
                                 <form method='POST' action="{% url 'add-product' product.id %}">
                                     {% csrf_token %}
                                     <div class="input-group quantity mb-5" style="width: 100px;">
-                                        <div class="input-group-btn">
-                                            <button class="btn btn-sm btn-minus rounded-circle bg-light border" >
-                                                <i class="fa fa-minus"></i>
-                                            </button>
-                                        </div>
 
-                                        <input type="number" class="form-control form-control-sm text-center border-0" value="1" min="1" max="{{product.stock}}" name='qty'>
-                                        <div class="input-group-btn">
-                                            <button class="btn btn-sm btn-plus rounded-circle bg-light border">
-                                                <i class="fa fa-plus"></i>
-                                            </button>
-                                        </div>
+                                        {% if product.is_active %}
+                                            <input type="number" class="form-control form-control-sm text-center border-0" value="1" name='qty' min="1" max="{{product.stock}}"></input>
+                                        {% else %}<p class='text-danger'>Stock Out</p>{% endif %}
+
                                     </div>
-
-                                    <button class="btn border border-secondary rounded-pill px-4 py-2 mb-4 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</button>
+                                    {% if product.is_active %}
+                                        <button class="btn border border-secondary rounded-pill px-4 py-2 mb-4 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</button>
+                                    {% endif %}
                                 </form>
+                                {% if not product.is_active %}
+                                    <a href="{% url 'request-product' product.id %}" href="_blank"><button class="btn border border-secondary rounded-pill px-4 py-2 mb-4 text-primary">Request</button></a>
+                                {% endif %}
                             </div>
                             <div class="col-lg-12">
                                 <nav>

@@ -7,6 +7,7 @@ from django.contrib.auth import get_user_model
 from django.core.validators import MinValueValidator , MaxValueValidator
 # Create your models here.
 
+User = get_user_model()
 class Category(models.Model):
     name = models.CharField(max_length = 100)
     image = CloudinaryField(folder = 'fruitable/category' , blank = True , null = True)
@@ -40,10 +41,17 @@ class Product(models.Model):
     def __str__(self):
         return self.name
     
+    def save(self , *args , **kwargs):
+        super().save(*args , **kwargs)
+        if self.stock == 0:
+            self.is_active = False
+        else:
+            self.is_active = True
+        return super().save(*args , **kwargs)
+    
     class Meta:
         ordering = ["-date"]
 
-User = get_user_model()
 POINT_CHOICE = [
     (0 , "Bad"),
     (1 , "Good"),
@@ -63,6 +71,22 @@ class ProductReview(models.Model):
     class Meta:
         ordering = ["-date" , "product"]
         unique_together = ["user" , "product"]
+
+class ProductRequest(models.Model):
+    id = models.UUIDField(primary_key = True , default = uuid.uuid4 , editable = False)
+    # Request info
+    user = models.ForeignKey(User , on_delete = models.SET_NULL , blank = True , null = True)
+    name = models.CharField(max_length = 100 , blank = True , null = True)
+    email = models.EmailField(blank = True , null = True)
+    product = models.ForeignKey(Product , on_delete = models.CASCADE)
+    message = models.TextField(blank = True , null = True)
+    date = models.DateTimeField(default = now)
+
+    def __str__(self):
+        return f'{self.user} requested for {self.product}'
+    class Meta:
+        ordering = ["-date" , "user"]
+
 
 
 

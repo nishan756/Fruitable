@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import  Category , Product , ProductReview
+from .models import  Category , Product , ProductReview , ProductRequest
 # Register your models here
 
 
@@ -14,4 +14,8 @@ class CatAdmin(admin.ModelAdmin):
 @admin.register(ProductReview)
 class ReviewAdmin(admin.ModelAdmin):
     list_display = ["user" , "product" , "date"]
+
+@admin.register(ProductRequest)
+class RequestAdmin(admin.ModelAdmin):
+    list_display = ["user","name","email","product","date"]
     

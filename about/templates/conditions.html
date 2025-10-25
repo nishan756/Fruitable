@@ -1,0 +1,10 @@
+{% extends 'index.html' %}
+{% block head %}
+<title>{% block title %}{{about.name}} | Terms and Condiotions {% endblock title %}</title>
+{% endblock head %}
+
+{% block body %}
+<div class='container' style="margin-top:200px;">
+    {{about.terms_and_conditions|safe}}
+</div>
+{% endblock body %}

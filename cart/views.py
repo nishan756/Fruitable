@@ -51,6 +51,8 @@ def AddProduct(request , id , product):
 
         REFERER = request.META.get('HTTP_REFERER' , '/shop')
         return redirect(REFERER)
+    else:
+        messages.info(request , "Stock Out")
 
 @itemRequired
 def IncreaseQty(request , id, item):
@@ -68,6 +70,8 @@ def IncreaseQty(request , id, item):
 @itemRequired
 def DeleteItem(request , id , item):
     messages.success(request , f'{item.product} deleted')
+    item.product.stock += item.qty
+    item.product.save()
     item.delete()
     return redirect('cart')
 

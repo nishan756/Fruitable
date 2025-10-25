@@ -20,11 +20,4 @@ class ContactForm(forms.ModelForm):
                     "placeholder":'Enter Email',
                 }
             ),
-            "subject":forms.TextInput(
-                attrs = {
-                    "type":'text',
-                    "class":"form-control",
-                    "placeholder":'Message Subject',
-                }
-            ),
         }

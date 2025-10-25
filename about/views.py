@@ -4,8 +4,7 @@ from .forms import ContactForm
 # Create your views here.
 
 def Conditions(request):
-    about = AboutShop.objects.first()
-    return render(request , "conditions.html" , {'about':about})
+    return render(request , "conditions.html")
 
 def Contact(request):
     if request.method == 'POST':

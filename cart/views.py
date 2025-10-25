@@ -1,7 +1,8 @@
 from django.shortcuts import render , HttpResponse , redirect
-from .models import CartItem
+from .models import CartItem , ConfirmOrder
 from functools import wraps
 from django.contrib import messages
+from .forms import OrderForm
 from product.views import ProductRequired
 # Create your views here.
 
@@ -15,15 +16,21 @@ def itemRequired(func):
         return func(request , id , item , *args , **kwargs)
     return wrapper
 
+def orderRequired(func):
+    @wraps(func)
+    def wrapper(request , id):
+        try:
+            order = ConfirmOrder.objects.get(id = id)
+        except ConfirmOrder.DoesNotExist:
+            return HttpResponse("Order not found")
+        return func(request,id,order)
+    return wrapper
+
 def MyCart(request):
     items = CartItem.objects.filter(cart = request.cart , is_ordered = False)
     price = sum(item.price for item in items)
     return render(request , 'cart.html' , {"items":items , "price":price})
 
-def CheckOut(request):
-    items = CartItem.objects.filter(cart = request.cart , is_ordered = False)
-    price = sum(item.price for item in items)
-    return render(request , 'checkout.html' , {"items":items , "price":price})
 
 @ProductRequired
 def AddProduct(request , id , product):
@@ -90,3 +97,28 @@ def DecreaseQty(request , id, item):
         item.product.save()
         item.delete()
     return redirect('cart')
+
+def CheckOut(request):
+    items = CartItem.objects.filter(cart = request.cart , is_ordered = False)
+    price = sum(item.price for item in items)
+
+    if request.method == "POST":
+        form = OrderForm(data = request.POST)
+        if form.is_valid():
+            order = form.save(commit = False)
+            order.cart = request.cart
+            order.price  = price + order.shipping_charge.charge
+            order.save()
+            order.items.set(items)
+            order.save()
+            messages.success(request , "Thanks for your order")
+            return redirect("order-detail",order.id)
+        else:
+            messages.error(request , "Please correct the errors below")
+    else:
+        form = OrderForm(initial = {"name":request.user.get_full_name(),"phone":request.user.phone,"email":request.user.email} if request.user.is_authenticated else None)
+    return render(request , "checkout.html" , {"form":form,"items":items,"price":price})
+
+@orderRequired
+def OrderDetail(request , id , order):
+    return render(request , "order-detail.html",{"order":order})

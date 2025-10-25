@@ -1,10 +1,11 @@
-from .views import MyCart , CheckOut , IncreaseQty , DecreaseQty , AddProduct , DeleteItem
+from .views import MyCart , CheckOut , IncreaseQty , DecreaseQty , AddProduct , DeleteItem , OrderDetail
 from django.urls import path
 
 urlpatterns = [
     path("" , MyCart , name = 'cart'),
     path("checkout/" , CheckOut , name = 'checkout'),
-    path("add/<str:id>/" , AddProduct , name = 'add-product'),
+    path("checkout/" , CheckOut , name = 'checkout'),
+    path("order-detail/<str:id>/" , OrderDetail , name = 'order-detail'),
 
     # Increasing qty method url
     path("increase/<str:id>/" , IncreaseQty , name = 'increase'),

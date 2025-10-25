@@ -32,5 +32,19 @@ class Contact(models.Model):
 
     def __str__(self):
         return f'{self.name} send a message'
+
+class ShippingCharge(models.Model):
+    AREA_TYPE = [
+        ('Inside' , 'Inside'),
+        ('Outside' , 'Outside'),
+    ]
+    area_type = models.CharField(max_length = 50 , choices = AREA_TYPE)
+    location = models.CharField(max_length = 50)
+    charge = models.PositiveIntegerField()
+    
+    def __str__(self):
+        return f'{self.area_type} - {self.location} : {self.charge}'
+    
+
     
     

@@ -47,7 +47,7 @@ def AddProduct(request , id , product):
             new_item.save()
         product.stock -= qty
         product.save()
-        messages.success(request , f'{qty} {product.unit} { product.name} added toy your cart')
+        messages.success(request , f'{ product.name} added toy your cart')
 
         REFERER = request.META.get('HTTP_REFERER' , '/shop')
         return redirect(REFERER)
@@ -64,7 +64,7 @@ def IncreaseQty(request , id, item):
         item.product.stock -= 1
         item.product.save()
         item.save()
-        messages.success(request , f"1 {item.product.unit} {item.product} added to your cart")
+        messages.success(request , f"{item.product} added to your cart")
     return redirect('cart')
 
 @itemRequired
@@ -83,7 +83,7 @@ def DecreaseQty(request , id, item):
         item.product.stock += 1
         item.product.save()
         item.save()
-        messages.success(request , f"1 {item.product.unit} {item.product} deleted to your cart")
+        messages.success(request , f"{item.product} deleted to your cart")
     else:
         messages.success(request, f'{item.product} deleted')
         item.product.stock += 1

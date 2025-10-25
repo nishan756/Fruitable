@@ -14,13 +14,22 @@ class RequestForm(forms.ModelForm):
             'name':forms.TextInput(
                 attrs = {
                     'type':'text',
-                    "class":"form-control"
+                    "class":"form-control",
+                    "placeholder":"Enter Name"
                 }
             ),
             'email':forms.EmailInput(
                 attrs = {
                     'type':'text',
-                    "class":"form-control"
+                    "class":"form-control",
+                    "placeholder":"Enter Email"
+                }
+            ),
+            'message':forms.Textarea(
+                attrs = {
+                    'type':'text',
+                    "class":"form-control",
+                    "placeholder":"Your Message"
                 }
             )
         }

@@ -103,7 +103,7 @@
             </div>
         </div>
         <!-- Navbar End -->
-    <form method='GET'>
+    <form method='GET' action="{% url 'shop' %}">
         {% csrf_token %}
         <!-- Modal Search Start -->
         <div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -114,7 +114,7 @@
                     </div>
                     <div class="modal-body d-flex align-items-center">
                         <div class="input-group w-75 mx-auto d-flex">
-                            <input type="search" class="form-control p-3" placeholder="keywords" aria-describedby="search-icon-1">
+                            <input type="text" class="form-control p-3" placeholder="keywords" aria-describedby="search-icon-1" name="name">
                             <span id="search-icon-1" class="input-group-text p-3"><i class="fa fa-search"></i></span>
                         </div>
                     </div>

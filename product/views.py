@@ -7,6 +7,7 @@ from django.contrib import messages
 from .forms import ReviewForm , RequestForm
 from django.core.mail import send_mail
 from session.views import get_user
+from django.db.models import Q
 # Create your views here.
 
 def ProductRequired(func):
@@ -24,6 +25,11 @@ def Home(request):
 
 def Shop(request):
     products = Product.objects.all()
+
+    # Filtering
+    name = request.GET.get("name")
+    if name:
+        products = products.filter(Q(name__icontains = name))
     paginator = Paginator(object_list = products , per_page = 12)
     page = int(request.GET.get("page" ,  1))
     products = paginator.get_page(page)
